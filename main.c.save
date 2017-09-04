@@ -25,30 +25,7 @@ int main()
 
     print_usage();
 
-    int command;
-
-	printf("Enter your command:\n");
-	scanf("%d", &command);
-
-	printf("\n");
-
-	switch(command) {
-    case '-l':
-        printf("Lists all classrooms\n");
-        break;
-
-    case '-a':
-        printf("Add a new classroom\n");
-        break;
-
-    case '-d':
-        printf("Delete a classroom\n");
-        break;
-
-
-
-
-	}
+    get
 
 
     return 0;
