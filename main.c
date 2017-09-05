@@ -37,7 +37,9 @@ typedef struct  {
     float area; // m2
 }classroom_data_t;
 
+//Function declarations
 void add_classroom(char command[], char *space, classroom_data_t *rooms);
+void delete_classroom(int index, classroom_data_t *rooms);
 
 
 void print_usage()
@@ -91,24 +93,29 @@ int main()
 		// Get command string
 		gets(command);
 
-        printf("Name\t");
-        printf("Seats\t");
-        printf("Window\t");
-        printf("Ligthness\t");
-        printf("Orientation\t");
-        printf("Area\t");
-        printf("\n");
+
 
 		// Search for command
 		if (strstr(command, LIST_CLASSROOM) != NULL) {
 
+            printf("Index\t");
+            printf("Name\t");
+            printf("Seats\t");
+            printf("Window\t");
+            printf("Ligthness\t");
+            printf("Orientation\t");
+            printf("Area\t");
+            printf("\n");
+            printf("-------------------------------------------------------------------------\n");
+
             for(int i = 0; i < pos; i++){
 
+                printf("%d\t", i);
                 printf("%s\t", rooms[i].name);
                 printf("%d\t", rooms[i].seat);
                 printf("%d\t", rooms[i].window);
                 printf("%f\t", rooms[i].lightness);
-                printf("%c\t", rooms[i].orientation);
+                printf("%c\t\t", rooms[i].orientation);
                 printf("%f\t", rooms[i].area);
 
                 printf("\n");
@@ -118,10 +125,15 @@ int main()
 
              add_classroom(command, SPACE, rooms);
 
-		} /*else if (strstr(command, DELETE_CLASSROOM) != NULL) {
+		} else if (strstr(command, DELETE_CLASSROOM) != NULL) {
 
+		    strtok(command, SPACE);//command
+            char *del = strtok(NULL, SPACE);
+            int index = atoi(del);
 
-		} else if (strstr(command, MOST_SEATS) != NULL) {
+            delete_classroom(index, rooms);
+
+		} /*else if (strstr(command, MOST_SEATS) != NULL) {
 
 
 		} else if (strstr(command, MOST_LIGHT) != NULL) {
@@ -146,11 +158,11 @@ int main()
 
 }
 
-//Function declarations
+//Functions
 
 void add_classroom(char command[], char space[], classroom_data_t *rooms)
 {
-    char *arg1 = strtok(command, space);
+    char *arg1 = strtok(command, space);//command
     char *arg2 = strtok(NULL, space);
     char *arg3 = strtok(NULL, space);
     char *arg4 = strtok(NULL, space);
@@ -169,13 +181,49 @@ void add_classroom(char command[], char space[], classroom_data_t *rooms)
 // -a TOTORO 12 12 3.4 N 2.3
 };
 
-int delete_classroom();
-int most_seats();
-int most_light();
-int most_area();
-int average_lightness();
-int get_orientation();
-int write_file();
-int read_file();
+void delete_classroom(int index, classroom_data_t *rooms)
+{
+    pos--;
+
+    for (int i = index-1; i < pos; i++){
+
+        strcpy(rooms[i].name, rooms[i+1].name);
+        rooms[i].seat = rooms[i+1].seat;
+        rooms[i].window = rooms[i+1].window;
+        rooms[i].lightness = rooms[i+1].lightness;
+        rooms[i].orientation = rooms[i+1].orientation;
+        rooms[i].area = rooms[i+1].area;
+    }
+
+};
+
+int most_seats()
+{
+
+};
+int most_light()
+{
+
+};
+int most_area()
+{
+
+};
+int average_lightness()
+{
+
+};
+int get_orientation()
+{
+
+};
+int write_file()
+{
+
+};
+int read_file()
+{
+
+};
 
 
