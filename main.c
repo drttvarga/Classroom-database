@@ -83,36 +83,38 @@ int main()
 
 	char command[256];
 
+
+
 	while (1) {
 		// Get command string
 		gets(command);
+
+		int i;
+
+        printf("Index\t");
+        printf("Name\t");
+        printf("Seats\t");
+        printf("Window\t");
+        printf("Ligthness\t");
+        printf("Orientation\t");
+        printf("Area\t");
+        printf("\n");
+
 		// Search for command
 		if (strstr(command, LIST_CLASSROOM) != NULL) {
 
-		    int i;
-
-            printf("Index\t", storage.rooms[i].index);
-			printf("Name\t", storage.rooms[i].name);
-			printf("Seats\t", storage.rooms[i].seat);
-			printf("Window\t", storage.rooms[i].window);
-			printf("Ligthness\t", storage.rooms[i].lightness);
-			printf("Orientation\t", storage.rooms[i].orientation);
-			printf("Area\t", storage.rooms[i].area);
-
             for(i = 0; i < 100; i++){
-			printf("%d\t", storage.rooms[i].index);
-			printf("%s\t", storage.rooms[i].name);
-			printf("%d\t", storage.rooms[i].seat);
-			printf("%d\t", storage.rooms[i].window);
-			printf("%f\t", storage.rooms[i].lightness);
-			printf("%c\t", storage.rooms[i].orientation);
-			printf("%f\t", storage.rooms[i].area);
 
-			printf("\n");
+                printf("%d\t", storage.rooms[i].index);
+                printf("%s\t", storage.rooms[i].name);
+                printf("%d\t", storage.rooms[i].seat);
+                printf("%d\t", storage.rooms[i].window);
+                printf("%f\t", storage.rooms[i].lightness);
+                printf("%c\t", storage.rooms[i].orientation);
+                printf("%f\t", storage.rooms[i].area);
+
+                printf("\n");
         }
-
-
-
 
 
 		} else if (strstr(command, ADD_CLASSROOM) != NULL) {
