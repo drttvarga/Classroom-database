@@ -6,6 +6,7 @@
 #include <stdlib.h>
 #include <string.h>
 
+
 //Command list
 #define LIST_CLASSROOM    "-l"
 #define ADD_CLASSROOM     "-a"
@@ -20,21 +21,23 @@
 
 //Definitions
 #define MAX_DATABASE_NAME_LEN 256
-#define SPACE " "
+char SPACE[] = " ";
+int pos = 0;
+
+
 
 //Data structures
 
-struct classroom_data {
-    int index;
+typedef struct  {
     char name [MAX_DATABASE_NAME_LEN];
     int seat;
     int window;
     float lightness; //0.0-10.0
     char orientation; // N, S, E, W
     float area; // m2
-};
+}classroom_data_t;
 
- struct classroom_data rooms[100];
+void add_classroom(char command[], char *space, classroom_data_t *rooms);
 
 
 void print_usage()
@@ -82,13 +85,12 @@ int main()
 
 	char command[256];
 
-
+    classroom_data_t rooms[100];
 
 	while (1) {
 		// Get command string
 		gets(command);
 
-        printf("Index\t");
         printf("Name\t");
         printf("Seats\t");
         printf("Window\t");
@@ -100,9 +102,8 @@ int main()
 		// Search for command
 		if (strstr(command, LIST_CLASSROOM) != NULL) {
 
-            for(int i = 0; i < 100; i++){
+            for(int i = 0; i < pos; i++){
 
-                printf("%d\t", rooms[i].index);
                 printf("%s\t", rooms[i].name);
                 printf("%d\t", rooms[i].seat);
                 printf("%d\t", rooms[i].window);
@@ -115,9 +116,7 @@ int main()
 
 		} else if (strstr(command, ADD_CLASSROOM) != NULL) {
 
-             add_classroom();
-
-            scanf("Add a new classroom\n");
+             add_classroom(command, SPACE, rooms);
 
 		} /*else if (strstr(command, DELETE_CLASSROOM) != NULL) {
 
@@ -142,34 +141,32 @@ int main()
 			printf("Wrong command!);
 		}
 	}*/
-
+   }
 	return 0;
-}
+
 }
 
 //Function declarations
 
-int add_classroom(char *command, SPACE, struct classroom_data *rooms)
+void add_classroom(char command[], char space[], classroom_data_t *rooms)
 {
-    strtok(command, SPACE);
+    char *arg1 = strtok(command, space);
+    char *arg2 = strtok(NULL, space);
+    char *arg3 = strtok(NULL, space);
+    char *arg4 = strtok(NULL, space);
+    char *arg5 = strtok(NULL, space);
+    char *arg6 = strtok(NULL, space);
+    char *arg7 = strtok(NULL, space);
 
+    memcpy(&rooms[pos].name, arg2, strlen(arg2)+1);
+    rooms[pos].seat = atoi(arg3);
+    rooms[pos].window = atoi(arg4);
+    rooms[pos].lightness = atof(arg5);
+    memcpy(&rooms[pos].orientation, arg6, strlen(arg6)+1);
+    rooms[pos].area = atof(arg7);
 
-    char *arg1 = strtok(NULL, SPACE);
-    char *arg2 = strtok(NULL, SPACE);
-    char *arg3 = strtok(NULL, SPACE);
-    char *arg4 = strtok(NULL, SPACE);
-    char *arg5 = strtok(NULL, SPACE);
-    char *arg6 = strtok(NULL, SPACE);
-    char *arg7 = strtok(NULL, SPACE);
-
-    rooms[i].index = atoi(arg1);
-    strcpy(rooms[i].name, arg2);
-    rooms[i].seat = atoi(arg3);
-    rooms[i].window = atoi(arg4);
-    rooms[i].lightness = atof(arg5);
-    strcpy(rooms[i].orientation, arg6);
-    rooms[i].area = atof(arg7);
-
+    pos++;
+// -a TOTORO 12 12 3.4 N 2.3
 };
 
 int delete_classroom();
