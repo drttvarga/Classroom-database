@@ -20,6 +20,7 @@
 
 //Definitions
 #define MAX_DATABASE_NAME_LEN 256
+#define SPACE " "
 
 //Data structures
 
@@ -33,10 +34,8 @@ struct classroom_data {
     float area; // m2
 };
 
-struct data_storage {
-    struct classroom_data rooms[100];
-    int length;
-};
+ struct classroom_data rooms[100];
+
 
 void print_usage()
 {
@@ -77,7 +76,7 @@ void clear_screen()
 
 int main()
 {
-    struct data_storage storage = {NULL, 0};
+    //struct classroom_data rooms = {NULL, 0};
 
 	print_usage();
 
@@ -103,28 +102,22 @@ int main()
 
             for(int i = 0; i < 100; i++){
 
-                printf("%d\t", storage.rooms[i].index);
-                printf("%s\t", storage.rooms[i].name);
-                printf("%d\t", storage.rooms[i].seat);
-                printf("%d\t", storage.rooms[i].window);
-                printf("%f\t", storage.rooms[i].lightness);
-                printf("%c\t", storage.rooms[i].orientation);
-                printf("%f\t", storage.rooms[i].area);
+                printf("%d\t", rooms[i].index);
+                printf("%s\t", rooms[i].name);
+                printf("%d\t", rooms[i].seat);
+                printf("%d\t", rooms[i].window);
+                printf("%f\t", rooms[i].lightness);
+                printf("%c\t", rooms[i].orientation);
+                printf("%f\t", rooms[i].area);
 
                 printf("\n");
             }
 
 		} else if (strstr(command, ADD_CLASSROOM) != NULL) {
 
-             //add_classroom();
+             add_classroom();
 
-			 for(int i = 0; i < 100; i++){
-
-                scanf("%d\t%s\t%d\t%d\t%f\t%c\t%f\t", storage.rooms[i].index, storage.rooms[i].name, storage.rooms[i].seat, storage.rooms[i].window, storage.rooms[i].lightness, storage.rooms[i].orientation, storage.rooms[i].area);
-
-			 }
-
-            printf("Add a new classroom\n");
+            scanf("Add a new classroom\n");
 
 		} /*else if (strstr(command, DELETE_CLASSROOM) != NULL) {
 
@@ -156,7 +149,29 @@ int main()
 
 //Function declarations
 
-int add_classroom();
+int add_classroom(char *command, SPACE, struct classroom_data *rooms)
+{
+    strtok(command, SPACE);
+
+
+    char *arg1 = strtok(NULL, SPACE);
+    char *arg2 = strtok(NULL, SPACE);
+    char *arg3 = strtok(NULL, SPACE);
+    char *arg4 = strtok(NULL, SPACE);
+    char *arg5 = strtok(NULL, SPACE);
+    char *arg6 = strtok(NULL, SPACE);
+    char *arg7 = strtok(NULL, SPACE);
+
+    rooms[i].index = atoi(arg1);
+    strcpy(rooms[i].name, arg2);
+    rooms[i].seat = atoi(arg3);
+    rooms[i].window = atoi(arg4);
+    rooms[i].lightness = atof(arg5);
+    strcpy(rooms[i].orientation, arg6);
+    rooms[i].area = atof(arg7);
+
+};
+
 int delete_classroom();
 int most_seats();
 int most_light();
