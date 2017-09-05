@@ -40,6 +40,9 @@ typedef struct  {
 //Function declarations
 void add_classroom(char command[], char *space, classroom_data_t *rooms);
 void delete_classroom(int index, classroom_data_t *rooms);
+void write_file(classroom_data_t *rooms, char *path);
+void read_file(classroom_data_t *rooms, char *path);
+int countlines(char *filename);
 
 
 void print_usage()
@@ -145,15 +148,25 @@ int main()
 
 		} else if (strstr(command, ORIENTATION ) != NULL) {
 
-		} else if (strstr(command, WRITE_TO_FILE) != NULL) {
+		}*/ else if (strstr(command, WRITE_TO_FILE) != NULL) {
+
+            strtok(command, SPACE);//command
+            char *path = strtok(NULL, SPACE);
+
+            write_file(rooms, path);
 
 		} else if (strstr(command, READ_FROM_FILE) != NULL) {
 
+		    strtok(command, SPACE);//command
+            char *path = strtok(NULL, SPACE);
+
+            read_file(rooms,path);
+
 		}else {
-			printf("Wrong command!);
+			printf("Wrong command!");
 		}
-	}*/
-   }
+	}
+
 	return 0;
 
 }
@@ -217,13 +230,94 @@ int get_orientation()
 {
 
 };
-int write_file()
+
+void write_file(classroom_data_t *rooms, char *path)
 {
+    // Error handling
+	if (path == NULL)
+		printf("Invalid path");
+
+	// open file
+	FILE *file = fopen(path, "w");
+	if (file == NULL)
+		printf("Unsuccessful file open");
+
+	// Write data to file
+	for (int i = 0; i < pos; i++) {
+		fprintf(file, "%s %d %d %f %c %f\n",
+        rooms[i].name,
+        rooms[i].seat,
+        rooms[i].window,
+        rooms[i].lightness,
+        rooms[i].orientation,
+        rooms[i].area);
+	}
+
+	fclose(file);
 
 };
-int read_file()
+void read_file(classroom_data_t *rooms, char *path)
 {
+    int lines = countlines(path);
+
+    // Error handling
+	if (path == NULL)
+        printf("Invalid path");
+
+
+	// open file
+	FILE *file = fopen(path, "r");
+	if (file == NULL)
+        printf("Unsuccessful file open");
+
+    char *name;
+    int seat;
+    int window;
+    float lightness;
+    char orientation;
+    float area;
+
+	for (int i = 0; i < lines; i++) {
+		fscanf(file, "%s %d %d %f %c %f\n",
+         name,
+         &seat,
+         &window,
+         &lightness,
+         &orientation,
+         &area);
+
+
+        memcpy(&rooms[i].name, name, strlen(name)+1);
+        rooms[i].seat = seat;
+        rooms[i].window = window;
+        rooms[i].lightness = lightness;
+        memcpy(&rooms[i].orientation, orientation, strlen(orientation)+1);
+        rooms[i].area = area;
+	}
+
+	pos = lines;
+
+	fclose(file);
 
 };
+int countlines(char *filename)
+{
+  // count the number of lines in the file called filename
+  FILE *fp = fopen(filename,"r");
+  int ch=0;
+  int lines=0;
+
+  if (fp == NULL);
+  return 0;
+
+  lines++;
+  while ((ch = fgetc(fp)) != EOF)
+    {
+      if (ch == '\n')
+    lines++;
+    }
+  fclose(fp);
+  return lines;
+}
 
 
