@@ -61,7 +61,7 @@ void clear_screen()
 	system("cls");
 }
 
-char *parser(char *command, char *token, int substring)
+/*char *parser(char *command, char *token, int substring)
 {
 	// Get parameter
 	char *p;
@@ -72,7 +72,7 @@ char *parser(char *command, char *token, int substring)
 			p = strtok(NULL, token);
 	}
 	return p;
-}
+}*/
 
 
 int main()
@@ -89,8 +89,6 @@ int main()
 		// Get command string
 		gets(command);
 
-		int i;
-
         printf("Index\t");
         printf("Name\t");
         printf("Seats\t");
@@ -103,7 +101,7 @@ int main()
 		// Search for command
 		if (strstr(command, LIST_CLASSROOM) != NULL) {
 
-            for(i = 0; i < 100; i++){
+            for(int i = 0; i < 100; i++){
 
                 printf("%d\t", storage.rooms[i].index);
                 printf("%s\t", storage.rooms[i].name);
@@ -114,122 +112,58 @@ int main()
                 printf("%f\t", storage.rooms[i].area);
 
                 printf("\n");
-        }
-
+            }
 
 		} else if (strstr(command, ADD_CLASSROOM) != NULL) {
-			char name [MAX_DATABASE_NAME_LEN];
+
+             //add_classroom();
+
+			 for(int i = 0; i < 100; i++){
+
+                scanf("%d\t%s\t%d\t%d\t%f\t%c\t%f\t", storage.rooms[i].index, storage.rooms[i].name, storage.rooms[i].seat, storage.rooms[i].window, storage.rooms[i].lightness, storage.rooms[i].orientation, storage.rooms[i].area);
+
+			 }
 
             printf("Add a new classroom\n");
 
 		} /*else if (strstr(command, DELETE_CLASSROOM) != NULL) {
-			char filename[256];
-			// Copy the filename
-			strcpy(filename, parser(command, "\"", 2));
 
-			// Save to file
-			write_todo(&storage, filename);
 
-		} else if (strstr(command, COMMAND_READ_TODOS) != NULL) {
-			char filename[256];
+		} else if (strstr(command, MOST_SEATS) != NULL) {
 
-			// Copy the filename
-			strcpy(filename, parser(command, "\"", 2));
 
-			// Save to file
-			read_todo(&storage, filename);
+		} else if (strstr(command, MOST_LIGHT) != NULL) {
 
-		} else if (strstr(command, COMMAND_EMPTY_TODOS) != NULL) {
-			// Empty the storage
-			empty_todo(&storage);
-			print_empty();
 
-		} else if (strstr(command, COMMAND_REMOVE_TODOS) != NULL) {
-			char number[256];
-			// Get the number
-			char *p = parser(command, " ", 2);
+		} else if (strstr(command, MOST_AREA) != NULL) {
 
-			// Error handling
-			if (p == NULL) {
-				print_error(RM_NO_INDEX);
-			} else {
-				strcpy(number, p);
+		} else if (strstr(command, AVERAGE_LIGHTNESS) != NULL) {
 
-				// Convert string to number
-				char *ptr;
-				int num = strtol(number, &ptr, 10);
+		} else if (strstr(command, ORIENTATION ) != NULL) {
 
-				// Error handling
-				if (ptr == number)
-					print_error(RM_NOT_NUMBER);
-				else if (num > storage.length || num <= 0)
-					print_error(RM_INV_INDEX);
-				else
-					// Remove todo
-					remove_todo(&storage, num);
-			}
-		} else if (strstr(command, COMMAND_CHECK_TODOS) != NULL) {
-			char number[256];
-			// Get the number
-			char *p = parser(command, " ", 2);
+		} else if (strstr(command, WRITE_TO_FILE) != NULL) {
 
-			// Error handling
-			if (p == NULL) {
-				print_error(CHECK_NO_INDEX);
-			} else {
-				strcpy(number, p);
+		} else if (strstr(command, READ_FROM_FILE) != NULL) {
 
-				// Convert string to number
-				char *ptr;
-				int num = strtol(number, &ptr, 10);
-
-				// Error handling
-				if (ptr == number)
-					print_error(CHECK_NOT_NUMBER);
-				else if (num > storage.length || num <= 0)
-					print_error(CHECK_INV_INDEX);
-				else
-					check_todo(&storage, num);
-			}
-		} else if (strstr(command, COMMAND_ADD_TODOS_PRIO) != NULL) {
-			char todo_name[256];
-			int error = 0;
-
-			// Get todo name
-			char *p = parser(command, "\"", 2);
-
-			// Error handling, save todo name
-			if (p == NULL) {
-				print_error(PRIO_NO_TASK);
-				error = 1;
-			} else {
-				strcpy(todo_name, p);
-			}
-
-			// Get prio number
-			p = parser(NULL, "\"", 1);
-			char *ptr;
-			int prio = strtol(p, &ptr, 10);
-
-			// Error handling
-			if (ptr == p) {
-				print_error(PRIO_NOT_NUMBER);
-				error = 1;
-			} else {
-				error = 0;
-			}
-
-			if (!error)
-				add_todo(&storage, todo_name, 0, prio);
-		} else if (strstr(command, COMMAND_LIST_TODOS) != NULL) {
-			list_todo(&storage);
-		} else {
-			print_error(INV_ARGUMENT);
+		}else {
+			printf("Wrong command!);
 		}
 	}*/
 
 	return 0;
 }
 }
+
+//Function declarations
+
+int add_classroom();
+int delete_classroom();
+int most_seats();
+int most_light();
+int most_area();
+int average_lightness();
+int get_orientation();
+int write_file();
+int read_file();
 
 
