@@ -43,6 +43,11 @@ void delete_classroom(int index, classroom_data_t *rooms);
 void write_file(classroom_data_t *rooms, char *path);
 void read_file(classroom_data_t *rooms, char *path);
 int countlines(char *filename);
+void most_seats(classroom_data_t *rooms);
+void most_light(classroom_data_t *rooms);
+void most_area(classroom_data_t *rooms);
+void average_lightness(classroom_data_t *rooms);
+int get_orientation(char *orientation, classroom_data_t *rooms);
 
 
 void print_usage()
@@ -68,23 +73,9 @@ void clear_screen()
 	system("cls");
 }
 
-/*char *parser(char *command, char *token, int substring)
-{
-	// Get parameter
-	char *p;
-	for (int i = 0; i < substring; i++) {
-		if (i == 0 && command != NULL)
-			p = strtok(command, token);
-		else
-			p = strtok(NULL, token);
-	}
-	return p;
-}*/
-
 
 int main()
 {
-    //struct classroom_data rooms = {NULL, 0};
 
 	print_usage();
 
@@ -95,8 +86,6 @@ int main()
 	while (1) {
 		// Get command string
 		gets(command);
-
-
 
 		// Search for command
 		if (strstr(command, LIST_CLASSROOM) != NULL) {
@@ -124,9 +113,10 @@ int main()
                 printf("\n");
             }
 
-		} else if (strstr(command, ADD_CLASSROOM) != NULL) {
+		}else if (strstr(command, AVERAGE_LIGHTNESS) != NULL) {
 
-             add_classroom(command, SPACE, rooms);
+		    average_lightness(rooms);
+
 
 		} else if (strstr(command, DELETE_CLASSROOM) != NULL) {
 
@@ -136,19 +126,33 @@ int main()
 
             delete_classroom(index, rooms);
 
-		} /*else if (strstr(command, MOST_SEATS) != NULL) {
+		} else if (strstr(command, MOST_SEATS) != NULL) {
 
+                most_seats(rooms);
 
 		} else if (strstr(command, MOST_LIGHT) != NULL) {
+
+            most_light(rooms);
 
 
 		} else if (strstr(command, MOST_AREA) != NULL) {
 
-		} else if (strstr(command, AVERAGE_LIGHTNESS) != NULL) {
+		    most_area(rooms);
 
-		} else if (strstr(command, ORIENTATION ) != NULL) {
+		}  else if (strstr(command, ADD_CLASSROOM) != NULL) {
 
-		}*/ else if (strstr(command, WRITE_TO_FILE) != NULL) {
+
+                 add_classroom(command, SPACE, rooms);
+
+
+		}else if (strstr(command, ORIENTATION ) != NULL) {
+
+		    strtok(command, SPACE);//command
+            char *orientation = strtok(NULL, SPACE);
+
+            get_orientation(orientation, rooms);
+
+		} else if (strstr(command, WRITE_TO_FILE) != NULL) {
 
             strtok(command, SPACE);//command
             char *path = strtok(NULL, SPACE);
@@ -208,28 +212,73 @@ void delete_classroom(int index, classroom_data_t *rooms)
         rooms[i].area = rooms[i+1].area;
     }
 
-};
+}
 
-int most_seats()
+void most_seats(classroom_data_t *rooms)
 {
+     int act_pos;
+     int max = 0;
+     for(int i = 0; i < pos; i++){
+        if(rooms[i].seat > max){
+            max = rooms[i].seat;
+            act_pos = i;
+        }
+     }
+     printf("%s has the most seats (%d)", rooms[act_pos].name, max);
 
-};
-int most_light()
+}
+void most_light(classroom_data_t *rooms)
 {
+    int act_pos;
+    float max = 0;
+     for(int i = 0; i < pos; i++){
+        if(rooms[i].lightness > max){
+            max = rooms[i].lightness;
+            act_pos = i;
+        }
+     }
+     printf("%s has the most light (%f)", rooms[act_pos].name, max);
 
-};
-int most_area()
+}
+void most_area(classroom_data_t *rooms)
 {
+    int act_pos;
+    float max = 0;
+     for(int i = 0; i < pos; i++){
+        if(rooms[i].area > max){
+            max = rooms[i].area;
+            act_pos = i;
+        }
+     }
+     printf("%s has the most area (%f)", rooms[act_pos].name, max);
 
-};
-int average_lightness()
+}
+void average_lightness(classroom_data_t *rooms)
 {
+    float sum = 0;
+    float avg;
+    for(int i = 0; i < pos; i++){
+        sum += rooms[i].lightness;
+    }
+    avg = sum / pos;
+    printf("The average lightness is %.2f", avg);
 
-};
-int get_orientation()
+}
+int get_orientation(char *orientation, classroom_data_t *rooms)
 {
+    for(int i = 0; i < pos; i++){
+          if(strchr(orientation, rooms[i].orientation) != NULL){
+            printf("%d\t", i);
+            printf("%s\t", rooms[i].name);
+            printf("%d\t", rooms[i].seat);
+            printf("%d\t", rooms[i].window);
+            printf("%f\t", rooms[i].lightness);
+            printf("%c\t\t", rooms[i].orientation);
+            printf("%f\t\n", rooms[i].area);
+          }
+    }
 
-};
+}
 
 void write_file(classroom_data_t *rooms, char *path)
 {
@@ -255,10 +304,12 @@ void write_file(classroom_data_t *rooms, char *path)
 
 	fclose(file);
 
-};
+}
 void read_file(classroom_data_t *rooms, char *path)
 {
     int lines = countlines(path);
+
+    printf("%d", lines);
 
     // Error handling
 	if (path == NULL)
@@ -299,7 +350,7 @@ void read_file(classroom_data_t *rooms, char *path)
 
 	fclose(file);
 
-};
+}
 int countlines(char *filename)
 {
   // count the number of lines in the file called filename
